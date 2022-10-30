@@ -5,8 +5,8 @@ module.exports = {
   },
   extends: [
     'airbnb',
-    'airbnb/hooks',
     'airbnb-typescript',
+    'airbnb/hooks',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
@@ -19,7 +19,35 @@ module.exports = {
     project: './tsconfig.json',
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
-  rules: {
-    'react/react-in-jsx-scope': 0,
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@', 'src'],
+          ['@/features', 'src/features'],
+        ],
+        extensions: ['.ts', '.js', '.jsx', '.json'],
+      },
+    },
   },
-};
+  rules: {
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+    'react/react-in-jsx-scope': 0,
+    'react/jsx-props-no-spreading': [
+      1,
+      {
+        html: 'ignore',
+      },
+    ],
+    'import/prefer-default-export': 0,
+  },
+}

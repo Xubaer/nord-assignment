@@ -1,9 +1,10 @@
-function App() {
+import AppProvider from '@/providers/app'
+import { AppRoutes } from '@/routes'
+
+export function App() {
   return (
-    <div className="App">
-      <h1>Nord Coding Assignment</h1>
-    </div>
+    <AppProvider>
+      <AppRoutes />
+    </AppProvider>
   )
 }
-
-export default App

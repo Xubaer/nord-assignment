@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { axios } from '@/lib/axios'
 
-type ServersResponse = {
+export type ServersResponse = {
   name: string
   distance: number
 }

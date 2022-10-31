@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { BrowserRouter } from 'react-router-dom'
-import { Fallback } from '@/components/Fallback'
+import { Loading } from '@/components/Loading'
 
 const queryClient = new QueryClient()
 
@@ -27,7 +27,7 @@ type AppProviderProps = {
 
 function AppProvider({ children }: AppProviderProps) {
   return (
-    <React.Suspense fallback={<Fallback />}>
+    <React.Suspense fallback={<Loading />}>
       <ErrorBoundary FallbackComponent={FallbackComponent}>
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>{children}</BrowserRouter>

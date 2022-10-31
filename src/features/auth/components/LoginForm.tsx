@@ -2,6 +2,8 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { LockClosedIcon } from '@heroicons/react/20/solid'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import axios, { type AxiosError } from 'axios'
+import { useState } from 'react'
 import { loginUser } from '../api/login'
 import auth from '@/utils/auth'
 
@@ -20,6 +22,8 @@ const schema = yup.object({
 })
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
+  const [error, setError] = useState('')
+
   const {
     register,
     handleSubmit,
@@ -28,16 +32,28 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     resolver: yupResolver(schema),
   })
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const {
-      data: { token },
-    } = await loginUser(data)
-    auth.setUser(token)
-    onSuccess()
+    try {
+      const {
+        data: { token },
+      } = await loginUser(data)
+      auth.setUser(token)
+      onSuccess()
+    } catch (err: any | AxiosError) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data.message)
+      } else {
+        setError(err?.message)
+      }
+    }
   }
 
   return (
     <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-      <input type="hidden" name="remember" defaultValue="true" />
+      {error && (
+        <p className="text-red-600 text-xs my-2 text-center" role="alert">
+          {error}
+        </p>
+      )}
       <div className="-space-y-px rounded-md shadow-sm">
         <div>
           <label htmlFor="username">
@@ -75,20 +91,6 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
                 {errors.password?.message}
               </p>
             )}
-          </label>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <label className="block" htmlFor="remember-me">
-            <input
-              id="remember-me"
-              name="remember-me"
-              type="checkbox"
-              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-            />
-            <span className="ml-2 text-sm text-gray-900">Remember me</span>
           </label>
         </div>
       </div>

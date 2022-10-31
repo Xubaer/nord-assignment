@@ -1,26 +1,24 @@
 import { describe, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { WrappedApp, App } from './App'
+import { App } from './App'
 
 describe('App', () => {
-  it('Renders App component', () => {
-    render(<WrappedApp />)
+  it('should render App with Landing page', () => {
+    render(<App />)
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Sign in to your account'
+      'Welcome to the Shark website'
     )
   })
 
-  it('Renders not found on invalid urls', () => {
-    render(
-      <MemoryRouter initialEntries={['/should-not-work']}>
-        <App />
-      </MemoryRouter>
-    )
+  it('should go to login page when click on get started button', async () => {
+    render(<App />)
 
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Not Found'
-    )
+    const getStartedBtn = screen.getByRole('button', { name: /get started/i })
+    await fireEvent.click(getStartedBtn)
+
+    const loginHeading = await screen.findByRole('heading', { level: 1 })
+    expect(loginHeading).toHaveTextContent('Loginnnn')
   })
 })

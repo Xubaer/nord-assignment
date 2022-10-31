@@ -4,7 +4,7 @@ import { List } from '../components/List'
 export function ServerRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<List />} />
+      <Route path="/*" element={<List />} />
     </Routes>
   )
 }

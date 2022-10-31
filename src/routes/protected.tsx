@@ -1,14 +1,14 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { Fallback } from "@/components/Fallback";
-import { MainLayout } from "@/components/MainLayout";
-import { lazy, Suspense } from "react";
+import { Navigate, Outlet } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
+import { Loading } from '@/components/Loading'
+import { MainLayout } from '@/components/MainLayout'
 
-const ServersList = lazy(() => import('@/features/servers'))
+const ServerRoutes = lazy(() => import('@/features/servers'))
 
 function App() {
   return (
     <MainLayout>
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<Loading />}>
         <Outlet />
       </Suspense>
     </MainLayout>
@@ -17,10 +17,10 @@ function App() {
 
 export const protectedRoutes = [
   {
-    path: '/app',
+    path: '/app/*',
     element: <App />,
     children: [
-      { path: '', element: <ServersList /> },
+      { index: true, element: <ServerRoutes /> },
       { path: '*', element: <Navigate to="." /> },
     ],
   },

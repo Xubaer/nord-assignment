@@ -19,6 +19,6 @@ describe('App', () => {
     await fireEvent.click(getStartedBtn)
 
     const loginHeading = await screen.findByRole('heading', { level: 1 })
-    expect(loginHeading).toHaveTextContent('Loginnnn')
+    expect(loginHeading).toHaveTextContent('Login')
   })
 })

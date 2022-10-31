@@ -13,6 +13,7 @@ export default defineConfig({
     react(),
     legacy({
       targets: ['defaults', 'ie >= 11'],
+      additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
     }),
   ],
   test: {

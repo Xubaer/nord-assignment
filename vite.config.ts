@@ -5,10 +5,16 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import * as path from 'path'
+import legacy from '@vitejs/plugin-legacy'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    legacy({
+      targets: ['defaults', 'not IE 11'],
+    }),
+  ],
   test: {
     globals: true,
     environment: 'jsdom',
